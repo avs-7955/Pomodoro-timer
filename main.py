@@ -18,7 +18,7 @@ LONG_BREAK_MIN = 20
 
 def start_timer():
     '''To start the timer as soon as the user clicks start'''
-    count_down_timer(5 * 60)
+    count_down_timer(15)
 
 # ---------------------------- COUNTDOWN MECHANISM ----------------------------- #
 # window.after causes delay and it's functionality is similar to sleep function.
@@ -28,6 +28,9 @@ def count_down_timer(count):
     # Formating time to display in proper time format i.e. 00:00
     mins = floor(count / 60)
     secs = count % 60
+    # Dynamic Typing used to print 0 as 00, 1 as 01.
+    if secs < 10:
+        secs = f"0{secs}"
     time_left = f"{mins}:{secs}"
 
     # Printing count into the canvas and recursion implementation
