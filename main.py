@@ -1,3 +1,4 @@
+from math import floor
 from tkinter import *
 # ---------------------------- CONSTANTS ------------------------------- #
 
@@ -17,14 +18,20 @@ LONG_BREAK_MIN = 20
 
 def start_timer():
     '''To start the timer as soon as the user clicks start'''
-    count_down_timer(5)
+    count_down_timer(5 * 60)
 
 # ---------------------------- COUNTDOWN MECHANISM ----------------------------- #
 # window.after causes delay and it's functionality is similar to sleep function.
 
 
 def count_down_timer(count):
-    canvas.itemconfig(timer_count_text, text=count)
+    # Formating time to display in proper time format i.e. 00:00
+    mins = floor(count / 60)
+    secs = count % 60
+    time_left = f"{mins}:{secs}"
+
+    # Printing count into the canvas and recursion implementation
+    canvas.itemconfig(timer_count_text, text=time_left)
     if count > 0:
         window.after(1000, count_down_timer, count-1)
 
