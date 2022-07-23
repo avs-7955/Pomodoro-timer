@@ -7,12 +7,23 @@ RED = "#e7305b"
 GREEN = "#9bdeac"
 YELLOW = "#f7f5dd"
 FONT_NAME = "Courier"
-WORK_MIN = 1
+WORK_MIN = 25
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
 reps = 1
+timer = None
 
 # ---------------------------- TIMER RESET ------------------------------- #
+
+
+def reset_timer():
+    '''To reset the app once the user clicks reset'''
+    window.after_cancel(timer)
+    title_label.config(text="Timer", fg=GREEN)
+    canvas.itemconfig(timer_count_text, text="00:00")
+    tick_labels.config(text="")
+    global reps
+    reps = 1
 
 # ---------------------------- TIMER MECHANISM ------------------------------- #
 
@@ -49,12 +60,17 @@ def count_down_timer(count):
     # Printing count into the canvas and recursion implementation
     canvas.itemconfig(timer_count_text, text=time_left)
     if count > 0:
-        window.after(1000, count_down_timer, count-1)
+        global timer
+        timer = window.after(1000, count_down_timer, count-1)
     else:
         start_timer()
-
+        marks = ''
+        for _ in range(0, floor(reps/2)):
+            marks += '✔'
+        tick_labels.config(text=marks)
 
 # ---------------------------- UI SETUP ------------------------------- #
+
 
 # Creating a window
 window = Tk()
@@ -79,11 +95,11 @@ start_button = Button(text="Start", highlightthickness=0, command=start_timer)
 start_button.grid(column=0, row=2)
 
 # Reset button
-reset_button = Button(text="Reset", highlightthickness=0)
+reset_button = Button(text="Reset", highlightthickness=0, command=reset_timer)
 reset_button.grid(column=2, row=2)
 
 # Tick labels for each pomodoro session completion
-tick_labels = Label(text="✔", font=(FONT_NAME, 20,))
+tick_labels = Label(font=(FONT_NAME, 20,))
 tick_labels.grid(column=1, row=3)
 tick_labels.config(fg=GREEN, bg=YELLOW)
 
