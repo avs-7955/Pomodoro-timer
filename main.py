@@ -7,7 +7,7 @@ RED = "#e7305b"
 GREEN = "#9bdeac"
 YELLOW = "#f7f5dd"
 FONT_NAME = "Courier"
-WORK_MIN = 25
+WORK_MIN = 1
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
 reps = 1
@@ -23,10 +23,13 @@ def start_timer():
     global reps
     if reps % 8 == 0:
         count_down_timer(LONG_BREAK_MIN * 60)
+        title_label.config(text="Break", fg=RED)
     elif reps % 2 == 0:
         count_down_timer(SHORT_BREAK_MIN * 60)
+        title_label.config(text="Break", fg=PINK)
     else:
         count_down_timer(WORK_MIN * 60)
+        title_label.config(text="Work", fg=GREEN)
     reps += 1
 
 
