@@ -7,8 +7,8 @@ RED = "#e7305b"
 GREEN = "#9bdeac"
 YELLOW = "#f7f5dd"
 FONT_NAME = "Courier"
-WORK_MIN = 25
-SHORT_BREAK_MIN = 5
+WORK_MIN = 0.1
+SHORT_BREAK_MIN = 0.15
 LONG_BREAK_MIN = 20
 reps = 1
 timer = None
@@ -41,6 +41,7 @@ def start_timer():
     else:
         count_down_timer(WORK_MIN * 60)
         title_label.config(text="Work", fg=GREEN)
+        window.lift()
     reps += 1
 
 
@@ -63,6 +64,9 @@ def count_down_timer(count):
         global timer
         timer = window.after(1000, count_down_timer, count-1)
     else:
+        window.lift()
+        window.attributes('-topmost', 1)
+        window.after_idle(window.attributes, '-topmost', False)
         start_timer()
         marks = ''
         for _ in range(0, floor(reps/2)):
